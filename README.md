@@ -44,7 +44,7 @@ This will bring up a Python console. Go to File  Open and then open up &#39;m
 
 This will bring up the GUI.
 
-
+![gui image](read_me_images\gui_image.jpg)
 
 There are four parameters that can be changed:
 
