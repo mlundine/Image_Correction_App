@@ -1,12 +1,16 @@
 # Image_Correction_App
-Corrects underwater images by bringing out reds and bringing down blues and greens
+Corrects underwater images by bringing out reds and bringing down blues and greens <br />
 **Underwater Photo Correction in Python (Windows)**
 
 **Mark Lundine**
 
 **Rationale:** Underwater photos become enriched in blues and greens while losing most of their red color.
 
+![fishies](/read_me_images/fishies_original.jpg)
+
 **Solution:** Shift the pixels around to heighten the reds and bring down the blues and greens. Make this automated instead of using expensive and time-intensive software like Photoshop.
+
+![fishies corrected](/read_me_images/fishies_corrrected.jpg)
 
 **Credits:** The basis of this algorithm was adapted into Python from some Javascript code available at [https://github.com/nikolajbech/underwater-image-color-correction](https://github.com/nikolajbech/underwater-image-color-correction)
 
