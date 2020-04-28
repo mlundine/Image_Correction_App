@@ -10,7 +10,7 @@ Corrects underwater images by bringing out reds and bringing down blues and gree
 
 **Solution:** Shift the pixels around to heighten the reds and bring down the blues and greens. Make this automated instead of using expensive and time-intensive software like Photoshop.
 
-![fishies corrected](/read_me_images/fishies_corrrected.JPG)
+![fishies corrected](/read_me_images/fishies_corrected.JPG)
 
 **Credits:** The basis of this algorithm was adapted into Python from some Javascript code available at [https://github.com/nikolajbech/underwater-image-color-correction](https://github.com/nikolajbech/underwater-image-color-correction)
 
