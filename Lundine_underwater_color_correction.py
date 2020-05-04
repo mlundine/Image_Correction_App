@@ -7,7 +7,6 @@ Created on Thu Feb 20 10:27:39 2020
 
 import numpy as np
 import PIL
-import matplotlib.pyplot as plt
 import skvideo
 import os
 wd = os.getcwd()
@@ -162,7 +161,7 @@ def single_image(path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
     return new_path
      
 def batch_image(folder, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
-    types = ('/*.JPG', '/*.jpg', '/*.png', '/*.jpeg', '/*.tif')
+    types = ('/*.JPG', '/*.jpg', '/*.png', '/*.PNG', '/*.JPEG', '/*.TIF', '/*.jpeg', '/*.tif')
     files = []
     for ext in types:
         for im in glob.glob(folder + ext):
