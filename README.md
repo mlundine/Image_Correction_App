@@ -62,9 +62,7 @@ MAX\_HUE\_SHIFT = 120
 
 BLUE\_MAGIC\_VALUE = 1.2
 
-SHARPEN = 2
-
-Right now, to change the parameters, you have to change them before you select an image/folder/video.
+SHARPEN = 1
 
 To select an image, you just hit &#39;Single Image&#39; and navigate to the image you want to run the algorithm on. When an image is selected, it will display in the GUI. Then you hit the &#39;Run&#39; button, and it will run the algorithm, save the image as a jpeg with &#39;cc&#39; at the end, and then display the result in the GUI.
 
