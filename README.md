@@ -16,35 +16,9 @@ Corrects underwater images by bringing out reds and bringing down blues and gree
 
 **How-To-Use (with GUI):**
 
-1. Download Anaconda and Spyder from [https://www.anaconda.com/distribution/#download-section](https://www.anaconda.com/distribution/#download-section) Make sure you choose Python 3.x.
+Download this github repo to your computer and unzip it into your C-Drive, with the first folder named Image_Correction_App.
 
-2. Download this github repository, and then unzip it to a location of your choice on your machine.
-
-Make sure the name of the downloaded folder is &quot;Image\_Correction\_App&quot;
-
-2. Open up Anaconda Prompt and type the following commands to make a new virtual environment and to download necessary libraries:
-
-conda create –n underwaterImage python = 3.5
-
-activate underwaterImage
-
-pip install sk-video
-
-pip install pillow
-
-pip install pyqt5
-
-3. Go to the &#39;Image\_Correction\_App&#39; directory, basically just use the cd command and then type the file path to where you placed the Image\_Correction\_App folder.
-
-cd C:\yourname\image\_correction\_app
-
-4. In this directory, type in the terminal:
-
-idle
-
-This will bring up a Python console. Go to File  Open and then open up &#39;main.py&#39;.
-
-5. This will open up the GUI python script. To run, go to Run  Run Module
+In the folder C:\Image_Correction_App\dist, there is an executable called "main.exe".  Double click it to run the GUI.
 
 This will bring up the GUI.
 
