@@ -10,7 +10,8 @@ import PIL
 import skvideo
 import os
 wd = os.getcwd()
-skvideo.setFFmpegPath(wd + r'\ffmpeg\bin')
+ffmpeg_path = os.path.join(wd, 'ffmpeg', 'bin')
+skvideo.setFFmpegPath(ffmpeg_path)
 import skvideo.io
 import glob
 from PIL import ImageFilter
@@ -156,12 +157,19 @@ def single_image(path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
     sharp_filt_img = PIL.Image.fromarray(filtered_img)
     for i in range(SHARPEN):
         sharp_filt_img = sharp_filt_img.filter(ImageFilter.SHARPEN)
-    new_path = path[0:-4]+'_cc.jpeg'
-    sharp_filt_img.save(new_path)
+    new_path = os.path.splitext(os.path.basename(path))[0] + '_cc.jpeg'
+    wd = os.getcwd()
+    new_path = os.path.join(wd, 'correction_results', new_path)
+    try:
+        sharp_filt_img.save(new_path)
+    except:
+        newDir = os.path.join(wd, 'correction_results')
+        os.makedirs(newDir)
+        sharp_filt_img.save(new_path)
     return new_path
      
 def batch_image(folder, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
-    types = ('/*.JPG', '/*.jpg', '/*.png', '/*.PNG', '/*.JPEG', '/*.TIF', '/*.jpeg', '/*.tif')
+    types = ('/*.jpg', '/*.png', '/*.jpeg', '/*.tif')
     files = []
     for ext in types:
         for im in glob.glob(folder + ext):
@@ -173,10 +181,19 @@ def single_video(vid_path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN
     data = skvideo.io.ffprobe(vid_path)['video']
     rate = data['@r_frame_rate']
     reader =  skvideo.io.FFmpegReader(vid_path)
-    writer = skvideo.io.FFmpegWriter(vid_path[0:-4]+'_cc.mp4', outputdict = {'-r': rate})
-    i=1
+    wd = os.getcwd()
+    new_vid_path = os.path.splitext(os.path.basename(vid_path))[0]
+    new_vid_dir = os.path.join(wd, 'correction_results')
+    try:
+        new_vid_path = os.path.join(new_vid_dir, new_vid_path)
+        new_vid_path = new_vid_path + '_cc.mp4'
+        writer = skvideo.io.FFmpegWriter(new_vid_path, outputdict = {'-r': rate})
+    except:
+        os.makedirs(new_vid_dir)
+        new_vid_path = os.path.join(new_vid_dir, new_vid_path)
+        new_vid_path = new_vid_path + '_cc.mp4'
+        writer = skvideo.io.FFmpegWriter(new_vid_path + '_cc.mp4', outputdict = {'-r': rate})
     for frame in reader.nextFrame():
-        i=i+1
         height = frame.shape[0]
         width = frame.shape[1]
         avg = calculateAverageColor(frame, width, height)
@@ -185,7 +202,7 @@ def single_video(vid_path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN
         sharp_filt_img = PIL.Image.fromarray(filtered_img)
         for j in range(SHARPEN):
             sharp_filt_img = sharp_filt_img.filter(ImageFilter.SHARPEN)
-        final_arr = np.asarray(sharp_filt_img)
+        final_arr = np.asarray(sharp_filt_img).astype('uint8')
         writer.writeFrame(final_arr)
     writer.close()
     

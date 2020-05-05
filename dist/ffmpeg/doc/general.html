@@ -10,7 +10,7 @@
 <meta name="description" content="General Documentation: ">
 <meta name="keywords" content="FFmpeg documentation : General ">
 <meta name="Generator" content="texi2html 5.0">
-<!-- Created on February 21, 2020 by texi2html 5.0 -->
+<!-- Created on May 4, 2020 by texi2html 5.0 -->
 <!--
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
@@ -131,16 +131,18 @@ package(amdgru-pro contains, but does not install automatically) are required.
 <h2 class="section"><a href="general.html#toc-AviSynth">1.3 AviSynth</a></h2>
 
 <p>FFmpeg can read AviSynth scripts as input. To enable support, pass
-<code>--enable-avisynth</code> to configure.  The correct headers are
-included in compat/avisynth/, which allows the user to enable support
-without needing to search for these headers themselves.
+<code>--enable-avisynth</code> to configure after installing the headers
+provided by <a href="https://github.com/AviSynth/AviSynthPlus">AviSynth+</a>.
+AviSynth+ can be configured to install only the headers by either
+passing <code>-DHEADERS_ONLY:bool=on</code> to the normal CMake-based build
+system, or by using the supplied <code>GNUmakefile</code>.
 </p>
 <p>For Windows, supported AviSynth variants are
 <a href="http://avisynth.nl">AviSynth 2.6 RC1 or higher</a> for 32-bit builds and
 <a href="http://avisynth.nl/index.php/AviSynth+">AviSynth+ r1718 or higher</a> for 32-bit and 64-bit builds.
 </p>
-<p>For Linux and OS X, the supported AviSynth variant is
-<a href="https://github.com/avxsynth/avxsynth">AvxSynth</a>.
+<p>For Linux, macOS, and BSD, the only supported AviSynth variant is
+<a href="https://github.com/AviSynth/AviSynthPlus">AviSynth+</a>, starting with version 3.5.
 </p>
 <div class="float alert alert-info">
 <p>In 2016, AviSynth+ added support for building with GCC. However, due to
@@ -157,10 +159,11 @@ GCC builds of AviSynth+ by passing <code>-DAVSC_WIN32_GCC32</code> to
 GCC builds of AviSynth+ without any special flags.
 </p></div>
 <div class="float alert alert-info">
-<p>AviSynth and AvxSynth are loaded dynamically.  Distributors can build FFmpeg
-with <code>--enable-avisynth</code>, and the binaries will work regardless of the
-end user having AviSynth or AvxSynth installed - they&rsquo;ll only need to be
-installed to use AviSynth scripts (obviously).
+<p>AviSynth(+) is loaded dynamically.  Distributors can build FFmpeg
+with <code>--enable-avisynth</code>, and the binaries will work regardless
+of the end user having AviSynth installed.  If/when an end user
+would like to use AviSynth scripts, then they can install AviSynth(+)
+and FFmpeg will be able to find and use it to open scripts.
 </p></div>
 <a name="Chromaprint"></a>
 <h2 class="section"><a href="general.html#toc-Chromaprint">1.4 Chromaprint</a></h2>
@@ -495,6 +498,8 @@ library:
 <tr><td width="40%">codec2 (raw)</td><td width="10%">X</td><td width="10%">X</td><td width="40%">Must be given -mode format option to decode correctly.</td></tr>
 <tr><td width="40%">codec2 (.c2 files)</td><td width="10%">X</td><td width="10%">X</td><td width="40%">Contains header with version and mode info, simplifying playback.</td></tr>
 <tr><td width="40%">CRI ADX</td><td width="10%">X</td><td width="10%">X</td><td width="40%">Audio-only format used in console video games.</td></tr>
+<tr><td width="40%">CRI AIX</td><td width="10%"></td><td width="10%">X</td></tr>
+<tr><td width="40%">CRI HCA</td><td width="10%"></td><td width="10%">X</td><td width="40%">Audio-only format used in console video games.</td></tr>
 <tr><td width="40%">Discworld II BMV</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">Interplay C93</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in the game Cyberia from Interplay.</td></tr>
 <tr><td width="40%">Delphine Software International CIN</td><td width="10%"></td><td width="10%">X</td><td width="40%">Multimedia format used by Delphine Software games.</td></tr>
@@ -605,7 +610,6 @@ library:
 <tr><td width="40%">raw aptX</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">raw aptX HD</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">raw Chinese AVS video</td><td width="10%">X</td><td width="10%">X</td></tr>
-<tr><td width="40%">raw CRI ADX</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">raw Dirac</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">raw DNxHD</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">raw DTS</td><td width="10%">X</td><td width="10%">X</td></tr>
@@ -989,10 +993,14 @@ following image formats are supported:
 <tr><td width="40%">ADPCM G.722</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM G.726</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA AMV</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in AMV files</td></tr>
+<tr><td width="40%">ADPCM IMA Cunning Developments</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA Electronic Arts EACS</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA Electronic Arts SEAD</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA Funcom</td><td width="10%"></td><td width="10%">X</td></tr>
+<tr><td width="40%">ADPCM IMA High Voltage Software ALP</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA QuickTime</td><td width="10%">X</td><td width="10%">X</td></tr>
+<tr><td width="40%">ADPCM IMA Simon &amp; Schuster Interactive</td><td width="10%"></td><td width="10%">X</td></tr>
+<tr><td width="40%">ADPCM IMA Ubisoft APM</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA Loki SDL MJPEG</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA WAV</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">ADPCM IMA Westwood</td><td width="10%"></td><td width="10%">X</td></tr>
@@ -1016,6 +1024,7 @@ following image formats are supported:
 <tr><td width="40%">ADPCM VIMA</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in LucasArts SMUSH animations.</td></tr>
 <tr><td width="40%">ADPCM Westwood Studios IMA</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in Westwood Studios games like Command and Conquer.</td></tr>
 <tr><td width="40%">ADPCM Yamaha</td><td width="10%">X</td><td width="10%">X</td></tr>
+<tr><td width="40%">ADPCM Zork</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">AMR-NB</td><td width="10%">E</td><td width="10%">X</td><td width="40%">encoding supported through external library libopencore-amrnb</td></tr>
 <tr><td width="40%">AMR-WB</td><td width="10%">E</td><td width="10%">X</td><td width="40%">encoding supported through external library libvo-amrwbenc</td></tr>
 <tr><td width="40%">Amazing Studio PAF Audio</td><td width="10%"></td><td width="10%">X</td></tr>
@@ -1029,18 +1038,21 @@ following image formats are supported:
 <tr><td width="40%">Bink Audio</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in Bink and Smacker files in many games.</td></tr>
 <tr><td width="40%">CELT</td><td width="10%"></td><td width="10%">E</td><td width="40%">decoding supported through external library libcelt</td></tr>
 <tr><td width="40%">codec2</td><td width="10%">E</td><td width="10%">E</td><td width="40%">en/decoding supported through external library libcodec2</td></tr>
+<tr><td width="40%">CRI HCA</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">Delphine Software International CIN audio</td><td width="10%"></td><td width="10%">X</td><td width="40%">Codec used in Delphine Software International games.</td></tr>
 <tr><td width="40%">Digital Speech Standard - Standard Play mode (DSS SP)</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">Discworld II BMV Audio</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">COOK</td><td width="10%"></td><td width="10%">X</td><td width="40%">All versions except 5.1 are supported.</td></tr>
 <tr><td width="40%">DCA (DTS Coherent Acoustics)</td><td width="10%">X</td><td width="10%">X</td><td width="40%">supported extensions: XCh, XXCH, X96, XBR, XLL, LBR (partially)</td></tr>
 <tr><td width="40%">Dolby E</td><td width="10%"></td><td width="10%">X</td></tr>
+<tr><td width="40%">DPCM Gremlin</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">DPCM id RoQ</td><td width="10%">X</td><td width="10%">X</td><td width="40%">Used in Quake III, Jedi Knight 2 and other computer games.</td></tr>
 <tr><td width="40%">DPCM Interplay</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in various Interplay computer games.</td></tr>
 <tr><td width="40%">DPCM Squareroot-Delta-Exact</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in various games.</td></tr>
 <tr><td width="40%">DPCM Sierra Online</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in Sierra Online game audio files.</td></tr>
 <tr><td width="40%">DPCM Sol</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">DPCM Xan</td><td width="10%"></td><td width="10%">X</td><td width="40%">Used in Origin&rsquo;s Wing Commander IV AVI files.</td></tr>
+<tr><td width="40%">DPCM Xilam DERF</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">DSD (Direct Stream Digital), least significant bit first</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">DSD (Direct Stream Digital), most significant bit first</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">DSD (Direct Stream Digital), least significant bit first, planar</td><td width="10%"></td><td width="10%">X</td></tr>
@@ -1100,7 +1112,6 @@ following image formats are supported:
 <tr><td width="40%">PCM unsigned 24-bit little-endian</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">PCM unsigned 32-bit big-endian</td><td width="10%">X</td><td width="10%">X</td></tr>
 <tr><td width="40%">PCM unsigned 32-bit little-endian</td><td width="10%">X</td><td width="10%">X</td></tr>
-<tr><td width="40%">PCM Zork</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">QCELP / PureVoice</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">QDesign Music Codec 1</td><td width="10%"></td><td width="10%">X</td></tr>
 <tr><td width="40%">QDesign Music Codec 2</td><td width="10%"></td><td width="10%">X</td><td width="40%">There are still some distortions.</td></tr>
@@ -1181,6 +1192,7 @@ performance on systems without hardware floating point support).
 
 <table>
 <tr><td width="40%">Name</td><td width="10%">Support</td></tr>
+<tr><td width="40%">AMQP</td><td width="10%">E</td></tr>
 <tr><td width="40%">file</td><td width="10%">X</td></tr>
 <tr><td width="40%">FTP</td><td width="10%">X</td></tr>
 <tr><td width="40%">Gopher</td><td width="10%">X</td></tr>

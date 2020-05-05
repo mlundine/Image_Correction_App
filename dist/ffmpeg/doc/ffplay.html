@@ -10,7 +10,7 @@
 <meta name="description" content="ffplay Documentation: ">
 <meta name="keywords" content="FFmpeg documentation : ffplay ">
 <meta name="Generator" content="texi2html 5.0">
-<!-- Created on February 21, 2020 by texi2html 5.0 -->
+<!-- Created on May 4, 2020 by texi2html 5.0 -->
 <!--
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
@@ -652,8 +652,9 @@ This option has been deprecated in favor of private options, try -pixel_format.
 <dt>&lsquo;<samp>-stats</samp>&rsquo;</dt>
 <dd><p>Print several playback statistics, in particular show the stream
 duration, the codec parameters, the current position in the stream and
-the audio/video synchronisation drift. It is on by default, to
-explicitly disable it you need to specify <code>-nostats</code>.
+the audio/video synchronisation drift. It is shown by default, unless the
+log level is lower than <code>info</code>. Its display can be forced by manually
+specifying this option. To disable it, you need to specify <code>-nostats</code>.
 </p>
 </dd>
 <dt>&lsquo;<samp>-fast</samp>&rsquo;</dt>

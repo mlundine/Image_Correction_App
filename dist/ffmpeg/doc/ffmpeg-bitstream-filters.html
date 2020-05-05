@@ -10,7 +10,7 @@
 <meta name="description" content="FFmpeg Bitstream Filters Documentation: ">
 <meta name="keywords" content="FFmpeg documentation : FFmpeg Bitstream Filters ">
 <meta name="Generator" content="texi2html 5.0">
-<!-- Created on February 21, 2020 by texi2html 5.0 -->
+<!-- Created on May 4, 2020 by texi2html 5.0 -->
 <!--
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
@@ -759,6 +759,12 @@ Available values are:
 <dt>&lsquo;<samp>bt709</samp>&rsquo;</dt>
 <dd><p>BT 601, BT 709, BT 2020
 </p></dd>
+<dt>&lsquo;<samp>smpte2084</samp>&rsquo;</dt>
+<dd><p>SMPTE ST 2084
+</p></dd>
+<dt>&lsquo;<samp>arib-std-b67</samp>&rsquo;</dt>
+<dd><p>ARIB STD-B67
+</p></dd>
 </dl>
 
 
@@ -786,6 +792,11 @@ Available values are:
 <p>Set Rec709 colorspace for each frame of the file
 </p><div class="example">
 <pre class="example">ffmpeg -i INPUT -c copy -bsf:v prores_metadata=color_primaries=bt709:color_trc=bt709:colorspace=bt709 output.mov
+</pre></div>
+
+<p>Set Hybrid Log-Gamma parameters for each frame of the file
+</p><div class="example">
+<pre class="example">ffmpeg -i INPUT -c copy -bsf:v prores_metadata=color_primaries=bt2020:color_trc=arib-std-b67:colorspace=bt2020nc output.mov
 </pre></div>
 
 <a name="remove_005fextra"></a>

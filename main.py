@@ -8,19 +8,37 @@ Created on Mon Mar 30 13:08:41 2020
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-# Only needed for access to command line arguments
+import glob
 import sys
+import os
 import Lundine_underwater_color_correction as cc
 from PIL.ImageQt import ImageQt
+import gc
 
         
 class Window(QMainWindow):
 
     def __init__(self):
         super(Window, self).__init__()
-        self.setGeometry(50, 50, 500, 300)
+        self.setGeometry(50, 50, 800, 800)
         self.setWindowTitle("Underwater Image Color Correction")
-        self.home()            
+        self.home()
+
+    def exit_func(self, eBut, runBut, imgs):
+        runBut.setEnabled(False)
+        runBut.hide()
+        eBut.setEnabled(False)
+        eBut.hide()
+        for img in imgs:
+            img.hide()
+        try:
+            del globals()['folderName']
+            del globals()['fileName']
+            del globals()['vidFileName']
+        except:
+            pass
+
+        
 
     def correct(self, path, red, hue, blue, sharp, lab):
         new_img = cc.single_image(path, 
@@ -35,16 +53,19 @@ class Window(QMainWindow):
         lab.resize(int(pixmap2.width()/5), int(pixmap2.height()/5))
         lab.move(960,50)
         lab.show() 
+        
     
     def correct_batch(self, folder, red, hue, blue, sharp):
         cc.batch_image(folder, red, hue, blue, sharp)
-        
+            
     def correct_vid(self, file, red, hue, blue, sharp):
         cc.single_video(file, red, hue, blue, sharp)
         
-    def openFileNameDialog(self, button, imLab, rBut, hBut, bBut, sBut):
+        
+    def openFileNameDialog(self, button, imLab, rBut, hBut, bBut, sBut, eBut):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
+        global fileName
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Images (*.jpeg *.jpg *.png *.tif)", options=options)
         if fileName:
             label = QLabel(self)
@@ -53,27 +74,76 @@ class Window(QMainWindow):
             label.setPixmap(small_pixmap)
             label.move(150,50)
             label.resize(int(pixmap.width()/5),int(pixmap.height()/5))
-            label.show()  
+            label.show()
+
+            button.show()
             button.setEnabled(True)
             button.clicked.connect(lambda: self.correct(fileName, rBut.value(), hBut.value(), bBut.value(), sBut.value(), imLab))
+
+            img_buttons = [label, imLab]
+            eBut.show()
+            eBut.setEnabled(True)
+            eBut.clicked.connect(lambda: self.exit_func(eBut, button, img_buttons))
             
         
-    def openDirectory(self, button, rBut, hBut, bBut, sBut):
+    def openDirectory(self, button, rBut, hBut, bBut, sBut, eBut):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
+        global folderName
         folderName = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
         if folderName:
+            types = ('/*.jpg', '/*.png', '/*.jpeg', '/*.tif')
+            file_list = []
+            for ext in types:
+                for im in glob.glob(folderName + ext):
+                    file_list.append(im)
+            file_labs = []
+            if len(file_list) < 30:
+                ct = 0
+                for im in file_list:
+                    file_lab = QLabel(im, self)
+                    file_lab.resize(900,20)
+                    file_lab.move(500, ct*20)
+                    file_lab.show()
+                    ct = ct+1
+                    file_labs.append(file_lab)
+            else:
+                file_lab = QLabel('Working on Folder: ' + folderName, self)
+                file_lab.resize(900,20)
+                file_lab.move(500, 0)
+                file_lab.show()
+                file_labs.append(file_lab)
+
+            button.show()
             button.setEnabled(True)
-            button.clicked.connect(lambda: self.correct_batch(folderName, rBut.value(), hBut.value(), bBut.value(), sBut.value()))
+
             
-    def openVideo(self, button, rBut, hBut, bBut, sBut):
+            button.clicked.connect(lambda: self.correct_batch(folderName, rBut.value(), hBut.value(), bBut.value(), sBut.value()))
+
+            eBut.show()
+            eBut.setEnabled(True)
+            eBut.clicked.connect(lambda: self.exit_func(eBut, button, file_labs))
+            
+    def openVideo(self, button, rBut, hBut, bBut, sBut, eBut):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Videos (*.mp4)", options=options)
-        if fileName:
+        global vidFileName
+        vidFileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Videos (*.mp4)", options=options)
+        if vidFileName:
+            vidLabel = QLabel(vidFileName, self)
+            vidLabel.resize(900,20)
+            vidLabel.move(450, 200)
+            vidLabel.show()
+
+
+            button.show()
             button.setEnabled(True)
-            button.clicked.connect(lambda: self.correct_vid(fileName, rBut.value(), hBut.value(), bBut.value(), sBut.value()))
-        
+            button.clicked.connect(lambda: self.correct_vid(vidFileName, rBut.value(), hBut.value(), bBut.value(), sBut.value()))
+
+            videoLabels = [vidLabel]
+            eBut.show()
+            eBut.setEnabled(True)
+            eBut.clicked.connect(lambda: self.exit_func(eBut, button, videoLabels))
         
     def home(self):
         
@@ -151,11 +221,27 @@ class Window(QMainWindow):
         new.resize(100,100)
         
         
-        #run button
-        run_algorithm = QPushButton('Run', self)
-        run_algorithm.resize(100,100)
-        run_algorithm.move(0,600)
-        run_algorithm.setEnabled(False)
+        #run buttons
+        run_algorithm1 = QPushButton('Run', self)
+        run_algorithm1.resize(100,100)
+        run_algorithm1.move(0,600)
+        run_algorithm1.setEnabled(False)
+
+        run_algorithm2 = QPushButton('Run', self)
+        run_algorithm2.resize(100,100)
+        run_algorithm2.move(0,600)
+        run_algorithm2.setEnabled(False)
+
+        run_algorithm3 = QPushButton('Run', self)
+        run_algorithm3.resize(100,100)
+        run_algorithm3.move(0,600)
+        run_algorithm3.setEnabled(False)
+        
+        #exit button
+        exit_button = QPushButton('Close Images', self)
+        exit_button.resize(100,100)
+        exit_button.move(0,700)
+        exit_button.setEnabled(False)
         
         
         ##corrected image label
@@ -166,32 +252,40 @@ class Window(QMainWindow):
         
         
         ##clicking on single image
-        singleImage.clicked.connect(lambda: self.openFileNameDialog(run_algorithm,
+        singleImage.clicked.connect(lambda: self.openFileNameDialog(run_algorithm1,
                                                                     label2,
                                                                     min_avg_red_slider, 
                                                                     max_hue_shift_slider,
                                                                     blue_magic_val_slider,
-                                                                    sharpen_slider
+                                                                    sharpen_slider,
+                                                                    exit_button
                                                                     ))
 
 
         ##clicking on batch image
-        batchIm.clicked.connect(lambda: self.openDirectory(run_algorithm,
+        batchIm.clicked.connect(lambda: self.openDirectory(run_algorithm2,
                                                            min_avg_red_slider, 
                                                            max_hue_shift_slider,
                                                            blue_magic_val_slider,
-                                                           sharpen_slider))
+                                                           sharpen_slider,
+                                                           exit_button
+                                                           ))
         
         ##clicking on single video
-        singleVid.clicked.connect(lambda: self.openVideo(run_algorithm,
+        singleVid.clicked.connect(lambda: self.openVideo(run_algorithm3,
                                                          min_avg_red_slider, 
                                                          max_hue_shift_slider,
                                                          blue_magic_val_slider,
-                                                         sharpen_slider))
+                                                         sharpen_slider,
+                                                         exit_button))
         
         
         
         self.show()
+        run_algorithm1.hide()
+        run_algorithm2.hide()
+        run_algorithm3.hide()
+        exit_button.hide()
        
 def run():
     app = QApplication(sys.argv)
