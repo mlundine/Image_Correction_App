@@ -23,7 +23,7 @@ Download this github repo to your computer and unzip it into your C-Drive, with 
 The repo here will work with Windows, but it can be made to work with Macs by first downloading ffmpeg from: 
 https://ffmpeg.zeranoe.com/builds/
 
-You would want the top version, macOS 64-bit, static.  Replace the ffmpeg folder residing in /Image_Correction_App/dist with this folder.  Make sure it is named ffmpeg, without all of the extra characters it puts in the name when downloaded.
+You would want the top version, macOS 64-bit, static.  Replace the ffmpeg folder residing in /Image_Correction_App/dist with this folder.  Make sure it is unzipped and named ffmpeg, without all of the extra characters it puts in the name when downloaded.
 
 **How-To-Use Continued**
 
