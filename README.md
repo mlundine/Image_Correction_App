@@ -41,11 +41,11 @@ pyinstaller --noconsole --onefile main.py
 
 This will make make a build and dist folder in the Image_Correction_App folder.  
 
-The executable to run the GUI is in dist, named main.exe.  Double click it to run.
+The executable, main.exe to run the GUI is in /Image_Correction_App/dist.  Move it into the Image_Correction_App folder, then delete the now empty dist folder.  Change its name to UnderwaterImageApp instead of just main.  Double click it to run the GUI.
 
 **How-To-Use Continued**
 
-In the folder C:\Image_Correction_App\dist, there is an executable called "main.exe".  Double click it to run the GUI.
+In the folder C:\Image_Correction_App, there is an executable called "UnderwaterImageApp.exe".  Double click it to run the GUI.
 
 This will bring up the GUI.
 
