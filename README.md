@@ -27,7 +27,17 @@ You would want the top version, macOS 64-bit, static.  Replace the ffmpeg folder
 
 You also need to build a static version of the main.py script.  To do so, open up terminal.
 
-Type this command and then hit enter:
+Type these commands, hitting enter after each one:
+
+pip install PIL
+
+pip install numpy
+
+pip install sk-video
+
+pip install pyqt5
+
+pip install scipy
 
 pip install pyinstaller
 
