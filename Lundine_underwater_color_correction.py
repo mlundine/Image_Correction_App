@@ -184,14 +184,12 @@ def single_video(vid_path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN
     wd = os.getcwd()
     new_vid_path = os.path.splitext(os.path.basename(vid_path))[0]
     new_vid_dir = os.path.join(wd, 'correction_results')
+    new_vid_path = os.path.join(new_vid_dir, new_vid_path)
+    new_vid_path = new_vid_path + '_cc.mp4'
     try:
-        new_vid_path = os.path.join(new_vid_dir, new_vid_path)
-        new_vid_path = new_vid_path + '_cc.mp4'
         writer = skvideo.io.FFmpegWriter(new_vid_path, outputdict = {'-r': rate})
     except:
         os.makedirs(new_vid_dir)
-        new_vid_path = os.path.join(new_vid_dir, new_vid_path)
-        new_vid_path = new_vid_path + '_cc.mp4'
         writer = skvideo.io.FFmpegWriter(new_vid_path, outputdict = {'-r': rate})
     for frame in reader.nextFrame():
         height = frame.shape[0]
