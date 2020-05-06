@@ -37,7 +37,7 @@ cd _____/Image_Correction_App
 
 The final command you must type is the following:
 
-pyinstaller --noconsole --onefile main.py
+pyinstaller --onefile main.py
 
 This will make make a build and dist folder in the Image_Correction_App folder.  
 
