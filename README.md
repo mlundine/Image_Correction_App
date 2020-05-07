@@ -27,7 +27,17 @@ You would want the top version, macOS 64-bit, static.  Replace the ffmpeg folder
 
 You also need to build a static version of the main.py script.  To do so, open up terminal.
 
-Type this command and then hit enter:
+Type these commands, hitting enter after each one:
+
+pip install PIL
+
+pip install numpy
+
+pip install sk-video
+
+pip install pyqt5
+
+pip install scipy
 
 pip install pyinstaller
 
@@ -37,13 +47,19 @@ cd _____/Image_Correction_App
 
 The final command you must type is the following:
 
-pyinstaller --noconsole --onefile main.py
+pyinstaller --onefile main.py
 
+<<<<<<< HEAD
 This should make an application folder that contains the app file.  Move it into /Image_Correction_App.  Double click on it to run.
+=======
+This will make make a build and dist folder in the Image_Correction_App folder.  
+
+The executable, main.exe to run the GUI is in /Image_Correction_App/dist.  Move it into the Image_Correction_App folder, then delete the now empty dist folder.  Change its name to UnderwaterImageApp instead of just main.  Double click it to run the GUI.
+>>>>>>> 8406d6af3b47d1201873725f2d7b7a4833c9d231
 
 **How-To-Use Continued**
 
-In the folder C:\Image_Correction_App\dist, there is an executable called "main.exe".  Double click it to run the GUI.
+In the folder C:\Image_Correction_App, there is an executable called "UnderwaterImageApp.exe".  Double click it to run the GUI.
 
 This will bring up the GUI.
 
