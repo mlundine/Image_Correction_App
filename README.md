@@ -51,10 +51,6 @@ pyinstaller --onefile main.py
 
 This should make an application folder that contains the app file.  Move it into /Image_Correction_App.  Double click on it to run.
 
-This will make make a build and dist folder in the Image_Correction_App folder.  
-
-The executable, main.exe to run the GUI is in /Image_Correction_App/dist.  Move it into the Image_Correction_App folder, then delete the now empty dist folder.  Change its name to UnderwaterImageApp instead of just main.  Double click it to run the GUI.
-
 **How-To-Use Continued**
 
 In the folder C:\Image_Correction_App, there is an executable called "UnderwaterImageApp.exe".  Double click it to run the GUI.
