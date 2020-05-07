@@ -18,7 +18,7 @@ Corrects underwater images by bringing out reds and bringing down blues and gree
 
 Download this github repo to your computer and unzip it into your C-Drive, with the first folder named Image_Correction_App.
 
-**Only Read this section if you are using a mac**
+**Only Read this section if you are using a mac, also if you have a mac try these steps and let me know if this works**
 
 The repo here will work with Windows, but it can be made to work with Macs by first downloading ffmpeg from: 
 https://ffmpeg.zeranoe.com/builds/
@@ -39,9 +39,7 @@ The final command you must type is the following:
 
 pyinstaller --noconsole --onefile main.py
 
-This will make make a build and dist folder in the Image_Correction_App folder.  
-
-The executable to run the GUI is in dist, named main.exe.  Double click it to run.
+This should make an application folder that contains the app file.  Move it into /Image_Correction_App.  Double click on it to run.
 
 **How-To-Use Continued**
 
