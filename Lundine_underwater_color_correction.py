@@ -6,7 +6,10 @@ Created on Thu Feb 20 10:27:39 2020
 """
 
 import numpy as np
+import cv2
 import PIL
+from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
 import skvideo
 import os
 wd = os.getcwd()
@@ -16,6 +19,7 @@ import skvideo.io
 import glob
 from PIL import ImageFilter
 from os.path import join
+import datetime as dt
 ### Code adapated from javascript code available at https://github.com/nikolajbech/underwater-image-color-correction
 
 def getColorFilterMatrix(img_array, width, height, avg, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE):
@@ -147,26 +151,33 @@ def applyFilter(data, height, width, filterMatrix):
 #    Sharpen = 2
 ### Update to run on single, batch, and different parameters
 def single_image(path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
-    img = PIL.Image.open(path)
+    img_arr = cv2.imread(path, 1)
+    img_arr = img_arr[:, :, [2, 1, 0]]
     #exif = img.info['exif']
-    width,height = img.size
-    img_arr = np.asarray(img)
+    height,width,channels = img_arr.shape
     avg = calculateAverageColor(img_arr, width, height)
     filterMatrix = getColorFilterMatrix(img_arr, width, height, avg, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE)
     filtered_img = applyFilter(img_arr, height, width, filterMatrix)
     sharp_filt_img = PIL.Image.fromarray(filtered_img)
     for i in range(SHARPEN):
         sharp_filt_img = sharp_filt_img.filter(ImageFilter.SHARPEN)
-    new_path = os.path.splitext(os.path.basename(path))[0] + '_cc.jpeg'
+    
+    sharp_filt_img = cv2.cvtColor(np.array(sharp_filt_img), cv2.COLOR_RGB2BGR)
+    extension = os.path.splitext(os.path.basename(path))[1]
+    new_path = os.path.splitext(os.path.basename(path))[0] + '_cc'
+    
     wd = os.getcwd()
-    new_path = os.path.join(wd, 'correction_results', new_path)
-    try:
-        sharp_filt_img.save(new_path)
-    except:
-        newDir = os.path.join(wd, 'correction_results')
-        os.makedirs(newDir)
-        sharp_filt_img.save(new_path)
-    return new_path
+    saveFolder = 'correction_results'
+    saveFolder = os.path.join(wd, saveFolder)
+    new_path = os.path.join(saveFolder, new_path)
+    if os.path.isdir(saveFolder):
+        time_str = dt.datetime.now().strftime('%Y%m%d%H%M%S')
+        cv2.imwrite(new_path + '_' + time_str + extension, sharp_filt_img)
+    else:
+        os.makedirs(saveFolder)
+        time_str = dt.datetime.now().strftime('%Y%m%d%H%M%S')
+        cv2.imwrite(new_path + '_' + time_str + extension, sharp_filt_img)
+    return new_path + '_' + time_str + extension
      
 def batch_image(folder, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN):
     types = ('/*.jpg', '/*.png', '/*.jpeg', '/*.tif')

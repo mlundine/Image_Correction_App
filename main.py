@@ -40,7 +40,7 @@ class Window(QMainWindow):
 
         
 
-    def correct(self, path, red, hue, blue, sharp, lab):
+    def correct(self, path, red, hue, blue, sharp, lab, scaleFac):
         new_img = cc.single_image(path, 
                                   red, 
                                   hue, 
@@ -48,9 +48,9 @@ class Window(QMainWindow):
                                   sharp)
         
         pixmap2 = QPixmap(new_img)
-        small_pixmap2 = pixmap2.scaled(int(pixmap2.width()/5), int(pixmap2.height()/5))
+        small_pixmap2 = pixmap2.scaled(int(pixmap2.width()/scaleFac), int(pixmap2.height()/scaleFac))
         lab.setPixmap(small_pixmap2)
-        lab.resize(int(pixmap2.width()/5), int(pixmap2.height()/5))
+        lab.resize(int(pixmap2.width()/scaleFac), int(pixmap2.height()/scaleFac))
         lab.move(960,50)
         lab.show() 
         
@@ -70,15 +70,22 @@ class Window(QMainWindow):
         if fileName:
             label = QLabel(self)
             pixmap = QPixmap(fileName)
-            small_pixmap = pixmap.scaled(int(pixmap.width()/5), int(pixmap.height()/5))
+            scaleFac = 1
+            logical1 = 130 + (pixmap.width()/scaleFac) >= 940
+            logical2 = 50 + (pixmap.height()/scaleFac) >= 790
+            while (logical1 or logical2):
+                scaleFac = scaleFac + 1
+                logical1 = 130 + (pixmap.width()/scaleFac) >= 940
+                logical2 = 50 + (pixmap.height()/scaleFac) >= 790
+            small_pixmap = pixmap.scaled(int(pixmap.width()/scaleFac), int(pixmap.height()/scaleFac))
             label.setPixmap(small_pixmap)
-            label.move(150,50)
-            label.resize(int(pixmap.width()/5),int(pixmap.height()/5))
+            label.move(130,50)
+            label.resize(int(pixmap.width()/scaleFac),int(pixmap.height()/scaleFac))
             label.show()
 
             button.show()
             button.setEnabled(True)
-            button.clicked.connect(lambda: self.correct(fileName, rBut.value(), hBut.value(), bBut.value(), sBut.value(), imLab))
+            button.clicked.connect(lambda: self.correct(fileName, rBut.value(), hBut.value(), bBut.value(), sBut.value(), imLab, scaleFac))
 
             img_buttons = [label, imLab]
             eBut.show()
