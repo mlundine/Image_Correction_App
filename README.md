@@ -41,6 +41,8 @@ pip install scipy
 
 pip install pyinstaller
 
+pip install opencv-python
+
 Wait for that to finish, then type this command, filling in the blank line with the directory you saved the github repo to:
 
 cd _____/Image_Correction_App
