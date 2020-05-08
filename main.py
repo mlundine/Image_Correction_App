@@ -66,7 +66,7 @@ class Window(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         global fileName
-        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Images (*.jpeg *.jpg *.png *.tif)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self,"Select Image", "","All Files (*);;Images (*.jpeg *.jpg *.png *.tif)", 						  options=options)
         if fileName:
             label = QLabel(self)
             pixmap = QPixmap(fileName)
@@ -135,7 +135,7 @@ class Window(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         global vidFileName
-        vidFileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Videos (*.mp4)", options=options)
+        vidFileName, _ = QFileDialog.getOpenFileName(self,"Select Video", "","All Files (*);;Videos (*.mp4)",                                                                                    options=options)
         if vidFileName:
             vidLabel = QLabel(vidFileName, self)
             vidLabel.resize(900,20)
