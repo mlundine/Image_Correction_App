@@ -57,25 +57,22 @@ def getColorFilterMatrix(img_array, width, height, avg, MIN_AVG_RED, MAX_HUE_SHI
     hist['g'] = np.histogram(green, range(256))
     hist['b'] = np.histogram(blue, range(256))
 
-    ## Push 0 as start value in normalize array:
-    normalize['r'].append(0)
-    normalize['g'].append(0)
-    normalize['b'].append(0)
-
     ## Find values under threshold:
-    for i in range(255): 
-        if (hist['r'][0][i] - THRESHOLD_LEVEL < 2):
-            normalize['r'].append(i)
-        if (hist['g'][0][i] - THRESHOLD_LEVEL < 2):
-            normalize['g'].append(i)
-        if (hist['b'][0][i] - THRESHOLD_LEVEL < 2):
-            normalize['b'].append(i)
+    normalize['r'] = np.nonzero(hist['r'][0]-THRESHOLD_LEVEL < 2)
+    normalize['g'] = np.nonzero(hist['g'][0]-THRESHOLD_LEVEL < 2)
+    normalize['b'] = np.nonzero(hist['b'][0]-THRESHOLD_LEVEL < 2)
     
-    ## Push 255 as end value in normalize array:
-    normalize['r'].append(255)
-    normalize['g'].append(255)
-    normalize['b'].append(255)
+    ## Insert 0 as start value in normalize array:
+    normalize['r'] = np.insert(normalize['r'],0,0)
+    normalize['g'] = np.insert(normalize['g'],0,0)
+    normalize['b'] = np.insert(normalize['b'],0,0)
 
+    ## Insert 255 as end value in normalize array:
+    normalize['r'] = np.insert(normalize['r'],-1,255)
+    normalize['g'] = np.insert(normalize['g'],-1,255)
+    normalize['b'] = np.insert(normalize['b'],-1,255)
+
+    #normalize
     adjust['r'] = normalizingInterval(normalize['r'])
     adjust['g'] = normalizingInterval(normalize['g'])
     adjust['b'] = normalizingInterval(normalize['b'])
@@ -94,7 +91,7 @@ def getColorFilterMatrix(img_array, width, height, avg, MIN_AVG_RED, MAX_HUE_SHI
     adjstRed = shifted[0] * redGain
     adjstRedGreen = shifted[1] * redGain
     adjstRedBlue = shifted[2] * redGain * BLUE_MAGIC_VALUE
-
+    
     return [
         adjstRed, adjstRedGreen, adjstRedBlue, 0, redOffset,
         0, greenGain, 0, 0, greenOffset,
@@ -136,7 +133,8 @@ def normalizingInterval(normArray):
 
 def applyFilter(data, height, width, filterMatrix):
     new_img = np.zeros((height,width,3))
-    new_img[...,0] = np.round(((data[...,0] * filterMatrix[0]) + (data[...,1] * filterMatrix[1]) + (data[...,2] * filterMatrix[2])) + filterMatrix[4] * 255,0)
+    new_img[...,0] = np.round(((data[...,0] * filterMatrix[0]) + (data[...,1] * filterMatrix[1])
+                               + (data[...,2] * filterMatrix[2])) + filterMatrix[4] * 255,0)
     new_img[...,1] = np.round((data[...,1] * filterMatrix[6]) + filterMatrix[9] * 255,0) # Green
     new_img[...,2] = np.round((data[...,2] * filterMatrix[12]) + filterMatrix[14] * 255,0) ## Blue
     new_img[new_img<0] = 0
