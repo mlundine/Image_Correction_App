@@ -55,7 +55,11 @@ This should make an application folder that contains the app file.  Move it into
 
 **How-To-Use Continued**
 
-In the folder C:\Image_Correction_App, there is an executable called "UnderwaterImageApp.exe".  Double click it to run the GUI.
+Download the exe at [https://github.com/mlundine/Image_Correction_App/releases](https://github.com/mlundine/Image_Correction_App/releases)
+
+Place this exe, UnderwaterImageApp.exe, in the Image_Correction_App folder.
+
+Double click it to run the GUI.
 
 This will bring up the GUI.
 
