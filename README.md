@@ -77,7 +77,7 @@ SHARPEN = 1
 
 Each option will save the result in a new folder called 'correction_results', which can be found in /Image_Correction_App/dist, the folder that main.exe resides in.
 
-To select an image, you just hit &#39;Single Image&#39; and navigate to the image you want to run the algorithm on. When an image is selected, it will display in the GUI. Then you hit the &#39;Run&#39; button, and it will run the algorithm, save the image as a jpeg with &#39;cc&#39; at the end, and then display the result in the GUI.
+To select an image, you just hit &#39;Single Image&#39; and navigate to the image you want to run the algorithm on. When an image is selected, it will display in the GUI. Then you hit the &#39;Run&#39; button, and it will run the algorithm, save the image as a jpeg with &#39;cc&#39; at the end, and then a timestamp (YYYMMDDHHHHSS) and then display the result in the GUI.
 
 To select a folder of images, hit &#39;Batch of Images&#39; and then navigate to the folder. This will display the filepaths of all of the images seen in the selected folder.  If there are more than 30 images, it will just say Working on: 'your/folder/name'. Hit &#39;Run&#39; and it will run the algorithm on every image in that folder. You will know it&#39;s done once the &#39;Run&#39; button is no longer highlighted.
 
