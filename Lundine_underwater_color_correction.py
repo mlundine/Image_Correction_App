@@ -186,14 +186,16 @@ def single_image(path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN, ge
     avg = calculateAverageColor(img_arr, width, height)
     filterMatrix = getColorFilterMatrix(img_arr, width, height, avg, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE)
     filtered_img = applyFilter(img_arr, height, width, filterMatrix)
+    save_path = (new_path + '_' + time_str + '_red_' + str(MIN_AVG_RED) +
+                 '_hue' + str(MAX_HUE_SHIFT) +
+                 '_blue' + str(BLUE_MAGIC_VALUE) +
+                 '_sharpen' + str(SHARPEN))
     if clahe == True:
         clahefilter = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(16,16))
         #NORMAL
         # convert to gray
         gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
         grayimg = gray
-        GLARE_MIN = np.array([0, 0, 50],np.uint8)
-        GLARE_MAX = np.array([0, 0, 225],np.uint8)
         #CLAHE
         claheCorrecttedFrame = clahefilter.apply(grayimg)
 
@@ -205,15 +207,9 @@ def single_image(path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN, ge
         lab = cv2.merge(lab_planes)
         clahe_bgr = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
         filtered_img = clahe_bgr[:,:,[2,1,0]]
-        save_path = (new_path + '_' + time_str + '_red_' + str(MIN_AVG_RED) +
-             '_hue' + str(MAX_HUE_SHIFT) +
-             '_blue' + str(BLUE_MAGIC_VALUE) +
-             '_sharpen' + str(SHARPEN) + '_clahe' +extension)
+        save_path = save_path + '_clahe' + extension
     else:
-        save_path = (new_path + '_' + time_str + '_red_' + str(MIN_AVG_RED) +
-             '_hue' + str(MAX_HUE_SHIFT) +
-             '_blue' + str(BLUE_MAGIC_VALUE) +
-             '_sharpen' + str(SHARPEN) + extension)
+        save_path = save_path + extension)
     if SHARPEN > 0:
         sharp_filt_img = PIL.Image.fromarray(filtered_img)
         for i in range(SHARPEN):
@@ -280,8 +276,6 @@ def single_video(vid_path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN
             # convert to gray
             gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
             grayimg = gray
-            GLARE_MIN = np.array([0, 0, 50],np.uint8)
-            GLARE_MAX = np.array([0, 0, 225],np.uint8)
             #CLAHE
             claheCorrecttedFrame = clahefilter.apply(grayimg)
 
@@ -293,7 +287,7 @@ def single_video(vid_path, MIN_AVG_RED, MAX_HUE_SHIFT, BLUE_MAGIC_VALUE, SHARPEN
             lab = cv2.merge(lab_planes)
             clahe_bgr = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
             filtered_img = clahe_bgr[:,:,[2,1,0]]
-            sharp_filt_img = PIL.Image.fromarray(filtered_img)
+        sharp_filt_img = PIL.Image.fromarray(filtered_img)
         for j in range(SHARPEN):
             sharp_filt_img = sharp_filt_img.filter(ImageFilter.SHARPEN)
         final_arr = np.asarray(sharp_filt_img).astype('uint8')
